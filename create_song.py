@@ -32,10 +32,12 @@ def insert_song(song_name, word_file_name, author, create_date):
 
 def prompt_for_song():
     
-    song_name = input("enter song name")
-    author = input("enter author name")
-    create_date = input("enter create date in dd/mm/yyyy")
+    song_name = input("enter song name: ")
+    author = input("enter author name: ")
+    create_date = input("enter create date in dd/mm/yyyy: ")
     create_date = datetime.datetime.strptime(create_date,"%d/%m/%Y")
-    filename = input("enter file name")
+    filename = input("enter file name: ")
 
     return insert_song(song_name,filename,author,create_date)
+
+# prompt_for_song()
