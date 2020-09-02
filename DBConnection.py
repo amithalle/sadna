@@ -20,10 +20,12 @@ class DBConn:
 
     def select(self, sql, params = []):
         self.openConn()
+        results = []
         for x in self.conn.execute(sql, params):
-            yield x
+            results.append(x)
 
         self.conn.close()
+        return results
 
 _private_conn = None
 def conn():
