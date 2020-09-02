@@ -29,6 +29,7 @@ class DBConn:
 
 _private_conn = None
 def conn():
+    global _private_conn
     if _private_conn is None:
         _private_conn = DBConn()
     return _private_conn
