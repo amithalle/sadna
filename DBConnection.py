@@ -7,6 +7,9 @@ class DBConn:
         self.execStatement("create table if not exists words (word string, songID int , stanzaindex int,  lineindex "
                            "int, lineGlobalindex int, wordindex int)")
         self.execStatement("create table if not exists songs ( song_id int , author string,  create_date date, song_name string)")
+        self.execStatement("create table if not exists word_groups ( group_id int, group_name string)")
+        self.execStatement("create table if not exists word_in_group ( group_id int, word string)")
+
 
     def openConn(self):
         self.conn = sqlite3.connect("sadnaDB")
