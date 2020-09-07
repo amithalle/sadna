@@ -1,5 +1,5 @@
-import LoadFile
-import DBConnection
+from . import LoadFile
+from . import DBConnection
 import os
 import datetime
 

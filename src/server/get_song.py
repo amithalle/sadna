@@ -1,4 +1,4 @@
-from DBConnection import conn
+from .DBConnection import conn
 import itertools
 import operator
 

@@ -5,8 +5,8 @@ from flask import (
 )
 from flask_api import status
 
-import get_song
-import create_song
+from server import get_song
+from server import create_song
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 

@@ -1,5 +1,5 @@
-from  DBConnection import conn
-import get_song
+from  .DBConnection import conn
+from  . import get_song
 
 def create_word_group(group_name, words):
     max_group_id = conn().select("select max(group_id) from word_groups")[0][0]
@@ -32,4 +32,3 @@ def get_songs_by_group(group_id):
     return get_song.get_song_by_words(get_words_in_group(group_id))
 
 
-print(get_songs_by_group(0))
