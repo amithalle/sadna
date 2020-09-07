@@ -10,5 +10,5 @@ COPY src/ ./
 ENV PATH=/root/.local:/root/.local/bin:$PATH
 ENV FLASK_APP="src/flaskr"
 
-CMD ["flask", "run"]
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
 
