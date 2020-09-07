@@ -7,7 +7,7 @@ FROM python:3.8-slim AS build-image
 COPY --from=compiler /root/.local/ /root/.local
 WORKDIR /root/
 COPY src/ ./
-ENV PATH=/root/.local:$PATH
+ENV PATH=/root/.local:/root/.local/bin:$PATH
 
 CMD ["flask", "run", "src/flaskr"]
 
