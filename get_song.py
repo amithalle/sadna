@@ -3,7 +3,7 @@ import itertools
 import operator
 
 def get_song_text(song_id):
-    return create_text_from_words(get_song_index(song_id))
+    return create_text_from_words(get_words_for_song(song_id))
 
 def create_text_from_words(words):
     stanzas = []
@@ -26,6 +26,8 @@ def generate_line(line):
     line_repr = " ".join([x[0] for x in line])
     return line_repr
 
+def get_all_songs():
+    return conn().select("select * from songs")
 
 def get_songs_by_author(author_name):
     return conn().select("select * from songs where author = ?", [author_name])
@@ -57,7 +59,7 @@ def get_word_context(word, song_id):
 def get_song_words(song_id):
     return conn().select("select distinct word from words where songID = ? order by word",[song_id])
 
-def get_song_index(song_id):
+def get_words_for_song(song_id):
     return conn().select("select * from words where songID = ? order by lineGlobalindex asc, wordindex asc",[song_id])
 
 def get_word_by_global_index(song_id, line_index, word_index):
