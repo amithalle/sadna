@@ -5,8 +5,9 @@ RUN pip install --user -r requirements.txt
 
 FROM python:3.8-slim AS build-image
 COPY --from=compiler /root/.local/ /root/.local
+WORKDIR /root/
 COPY src/ ./
 ENV PATH=/root/.local:$PATH
 
-CMD ["flask", "run", "srcflaskr"]
+CMD ["flask", "run", "src/flaskr"]
 
