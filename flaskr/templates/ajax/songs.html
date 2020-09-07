@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>create date</th>
+    </thead>
+    <tbody>
+        {% for song in songs %}
+        <tr>
+            <td>{{ song[0]}}</td>
+            <td>{{ song[3]}}</td>
+            <td>{{ song[1]}}</td>
+            <td>{{ song[2]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
