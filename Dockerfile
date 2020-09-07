@@ -8,6 +8,7 @@ COPY --from=compiler /root/.local/ /root/.local
 WORKDIR /root/
 COPY src/ ./
 ENV PATH=/root/.local:/root/.local/bin:$PATH
+ENV FLASK_APP="src/flaskr"
 
-CMD ["flask", "run", "src/flaskr"]
+CMD ["flask", "run"]
 
