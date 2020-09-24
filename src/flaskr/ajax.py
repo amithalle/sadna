@@ -25,3 +25,15 @@ def get_songs():
         print ("getting all")
         data = get_song.get_all_songs()
     return render_template("ajax/songs.html", songs=data)
+
+
+@bp.route("/song_text", methods=("GET",))
+def get_song_text():
+    if "song_id" in request.args:
+        data = get_song.get_song_text(request.args["song_id"])
+        return render_template("ajax/song_text.html", text=data)
+
+
+@bp.route("/song_form", methods=('GET',))
+def get_song_form():
+    return render_template("ajax/song_form.html")
