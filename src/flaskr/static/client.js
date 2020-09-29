@@ -1,8 +1,9 @@
-function load_ajax_url(my_url) {
+function load_ajax_url(my_url,data={}) {
   show_loading();
   $.ajax({
     type: "GET",
     url: my_url,
+    data: data,
     success: function(msg) {
       hide_error();
       $("#div-content").html(msg + "<br>");
