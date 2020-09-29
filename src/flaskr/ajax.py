@@ -37,3 +37,8 @@ def get_song_text():
 @bp.route("/song_form", methods=('GET',))
 def get_song_form():
     return render_template("ajax/song_form.html")
+
+
+@bp.route("/song_search", methods=('GET',))
+def get_song_search():
+    return render_template("ajax/song_search.html")

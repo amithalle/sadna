@@ -1,0 +1,43 @@
+<form id="search_form">
+    <p>Filter by: </p>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+    <label for="song_name" class="btn btn-secondary active">
+    <input type="radio" id="song_name_check" name="field" value="name" checked>Song Name</label>
+    <label for="author" class="btn btn-secondary">
+    <input type="radio" id="author_check" name="field" value="author">  Author</label>
+    <label for="date" class="btn btn-secondary">
+    <input type="radio" id="date_check" name="field" value="date">Date</label>
+    </div>
+    <br />
+
+    <div id="name_search" class="search_form_option form-group" >
+      <label for="song_name">Enter Song Name: </label>
+      <input type="text" id="song_name" placeholder="enter song name" name="name" class="form-control">
+    </div>
+    <div id="author_search" class="search_form_option form-group">
+      <label for="author">Enter Author: </label>
+      <input type="text" id="author" placeholder="enter Autor name" name="author" class="form-control">
+    </div>
+    <div id="date_search" class="search_form_option form-group">
+      <label for="date_start">Enter Start Date: </label>
+      <input type="date" name="date_start" id="date_start" class="form-control">
+      <label for="date_end">Enter End Date: </label>
+      <input type="date" name="date_end" id="date_end" class="form-control">
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+
+<script>
+  $('input:radio[name="field"]').change(function() {
+    $(".search_form_option").hide();
+    $('#' + $(this).val() + "_search").show();
+  });
+
+  $(".search_form_option").hide();
+  $("#song_name_check").change();
+  $("#search_form").submit(e =>{
+    load_ajax_url("{{ url_for('api.get_song_by_field') }}", $("#search_form").serialize());
+    e.preventDefault();
+  })
+</script>

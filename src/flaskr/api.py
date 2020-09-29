@@ -56,3 +56,32 @@ def upload_file(request):
             full_path= os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(full_path)
             return full_path
+
+@bp.route("/get_song", methods=["GET"])
+def get_song_by_field():
+    data = None
+
+    if "field" not in request.values:
+        return "field is required", status.HTTP_400_BAD_REQUEST
+    elif request.values["field"] == 'author':
+        if "author"  in request.values:
+            data = get_song.get_songs_by_author(request.values["author"])
+        else:
+            return "author is required", status.HTTP_400_BAD_REQUEST
+    elif request.values["field"] == 'name':
+        if 'name'  in request.values.keys():
+            data = get_song.get_songs_by_name(request.values["name"])
+        else:
+            return "name is required", status.HTTP_400_BAD_REQUEST
+    elif request.values["field"] == 'date':
+        if "date_start"  in request.values and "date_end"  in request.values:
+            data = get_song.get_songs_by_date_range(request.values["date_start"], request.values["date_end"])
+        else:
+            return "dates are required", status.HTTP_400_BAD_REQUEST
+    else:
+        return "{} is invalid for 'field'".format(request.values["field"]), status.HTTP_400_BAD_REQUEST
+
+    if data is not None:
+        return render_template("ajax/songs.html", songs=data)
+    else:
+        return "there was an error somewhere", status.HTTP_500_INTERNAL_SERVER_ERROR
