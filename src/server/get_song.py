@@ -23,7 +23,7 @@ def generate_stanza(stanza):
     return stanza_repr
 
 def generate_line(line):
-    line_repr = " ".join([x[0] for x in line])
+    line_repr = " ".join([str(x[0]) for x in line])
     return line_repr
 
 def get_all_songs():
