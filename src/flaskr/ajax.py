@@ -42,3 +42,12 @@ def get_song_form():
 @bp.route("/song_search", methods=('GET',))
 def get_song_search():
     return render_template("ajax/song_search.html")
+
+@bp.route("/words", methods=["GET"])
+def get_words():
+    if "song_id" in request.values:
+        data = get_song.get_song_words(request.values["song_id"])
+    else:
+        data = get_song.get_all_words()
+
+    return render_template("ajax/words_table.html", words=data)

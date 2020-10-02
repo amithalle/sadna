@@ -1,0 +1,20 @@
+<table id="words" class="display">
+    <thead>
+        <th>Word</th>
+        <th>count</th>
+    </thead>
+    <tbody>
+        {% for word in words %}
+        <tr>
+            <td>{{word[0]}}</td>
+            <td>{{word[1]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $(document).ready(function() {
+        $('#words').DataTable();
+    } );
+
+</script>

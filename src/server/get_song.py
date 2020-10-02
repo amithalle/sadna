@@ -70,7 +70,11 @@ def get_word_context(word, song_id):
     return all_contexts
 
 def get_song_words(song_id):
-    return conn().select("select distinct word from words where songID = ? order by word",[song_id])
+    return conn().select("select word, count(*) as cnt from words where songID = ? group by word",[song_id])
+
+def get_all_words():
+    return conn().select("select word, count(*) as cnt from words group by word")
+
 
 def get_words_for_song(song_id):
     return conn().select("select * from words where songID = ? order by lineGlobalindex asc, wordindex asc",[song_id])

@@ -33,9 +33,10 @@
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
       <ul>
-        <li onclick="load_ajax_url('/ajax/songs')" class="button">Show Song list</li>
-        <li onclick="load_ajax_url('/ajax/song_form')">Upload Song</li>
-        <li onclick="load_ajax_url('/ajax/song_search')">Search Songs</li>
+        <li onclick="load_ajax_url('{{ url_for('ajax.get_songs')}}')" class="button">Show Song list</li>
+        <li onclick="load_ajax_url('{{ url_for('ajax.get_song_form')}}')">Upload Song</li>
+        <li onclick="load_ajax_url('{{ url_for('ajax.get_song_search')}}')">Search Songs</li>
+        <li onclick="load_ajax_url('{{ url_for('ajax.get_words')}}')">Words Statistics</li>
       </ul>
     </div>
     <div id="div-content">
