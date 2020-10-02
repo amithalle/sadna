@@ -78,6 +78,13 @@ def get_song_by_field():
             data = get_song.get_songs_by_date_range(request.values["date_start"], request.values["date_end"])
         else:
             return "dates are required", status.HTTP_400_BAD_REQUEST
+    elif request.values["field"] == 'word':
+        if "word" in request.values.keys():
+            sond_ids = get_song.get_song_ids_by_words([request.values["word"]])
+            data = get_song.get_songs_by_id(sond_ids)
+        else:
+            return "word is required", status.HTTP_400_BAD_REQUEST
+
     else:
         return "{} is invalid for 'field'".format(request.values["field"]), status.HTTP_400_BAD_REQUEST
 

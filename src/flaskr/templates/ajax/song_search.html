@@ -2,28 +2,34 @@
     <p>Filter by: </p>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-    <label for="song_name" class="btn btn-secondary active">
+    <label for="song_name_check" class="btn btn-secondary active">
     <input type="radio" id="song_name_check" name="field" value="name" checked>Song Name</label>
-    <label for="author" class="btn btn-secondary">
+    <label for="author_check" class="btn btn-secondary">
     <input type="radio" id="author_check" name="field" value="author">  Author</label>
-    <label for="date" class="btn btn-secondary">
+    <label for="date_check" class="btn btn-secondary">
     <input type="radio" id="date_check" name="field" value="date">Date</label>
+    <label for="word_check" class="btn btn-secondary">
+    <input type="radio" id="word_check" name="field" value="word">Word</label>
     </div>
     <br />
 
     <div id="name_search" class="search_form_option form-group" >
       <label for="song_name">Enter Song Name: </label>
-      <input type="text" id="song_name" placeholder="enter song name" name="name" class="form-control">
+      <input type="text" id="song_name" placeholder="Enter Song Name" name="name" class="form-control">
     </div>
     <div id="author_search" class="search_form_option form-group">
       <label for="author">Enter Author: </label>
-      <input type="text" id="author" placeholder="enter Autor name" name="author" class="form-control">
+      <input type="text" id="author" placeholder="Enter Autor Name" name="author" class="form-control">
     </div>
     <div id="date_search" class="search_form_option form-group">
       <label for="date_start">From: </label>
       <input type="date" name="date_start" id="date_start" class="form-control">
       <label for="date_end">To: </label>
       <input type="date" name="date_end" id="date_end" class="form-control">
+    </div>
+    <div id="word_search" class="search_form_option form-group">
+      <label for="word">Enter Author: </label>
+      <input type="text" id="word" placeholder="Enter Word" name="word" class="form-control">
     </div>
     <input type="submit" value="Submit" class="btn btn-primary">
   </form>

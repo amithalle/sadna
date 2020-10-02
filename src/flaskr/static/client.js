@@ -9,7 +9,6 @@ function load_ajax_url(my_url,data={}) {
       $("#div-content").html(msg + "<br>");
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      $("#div-content").html("");
       show_error("Error #" + jqXHR.status + ": " + errorThrown);
     }
   });

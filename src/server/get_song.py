@@ -38,8 +38,21 @@ def get_songs_by_name(song_name):
 def get_songs_by_date_range(min, max):
     return conn().select("select * from songs where create_date between ? and ?", [min, max])
 
-def get_song_by_words(words):
-    return conn().select("select songID from words where word in (?)", [words])
+def get_song_ids_by_words(words):
+    if len(words) == 0:
+        return []
+    # sqlite3 doesn;t support array parameter
+    param_arr = ",".join(["?" for x in range (len(words))])
+    return [x[0] for x in conn().select("select songID from words where word in ({})".format(param_arr), words)]
+
+
+def get_songs_by_id(id_list):
+    if len(id_list) == 0:
+        return []
+    param_arr = ",".join(["?" for x in range (len(id_list))])
+    return conn().select("select * from songs where song_id in ({})".format(param_arr), id_list)
+
+
 
 # print( get_songs_by_author("amit"))
 # print( get_songs_by_name("amit"))

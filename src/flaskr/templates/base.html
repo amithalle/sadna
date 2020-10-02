@@ -23,14 +23,17 @@
   </nav>
 {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
+  {% endfor %}
   <div id="div-alert" class="alert alert-message"></div>
-{% endfor %}
   <section class="content">
-    <ul>
-      <li onclick="load_ajax_url('/ajax/songs')" class="button">Show Song list</li>
-      <li onclick="load_ajax_url('/ajax/song_form')">Create Song</li>
-      <li onclick="load_ajax_url('/ajax/song_search')">Search Songs</li>
-    </ul>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+      <ul>
+        <li onclick="load_ajax_url('/ajax/songs')" class="button">Show Song list</li>
+        <li onclick="load_ajax_url('/ajax/song_form')">Upload Song</li>
+        <li onclick="load_ajax_url('/ajax/song_search')">Search Songs</li>
+      </ul>
+    </div>
     <div id="div-content">
       {% block content %}{% endblock %}
     </div>
