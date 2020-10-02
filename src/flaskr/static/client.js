@@ -1,5 +1,5 @@
 function load_ajax_url(my_url,data={}) {
-  show_loading();
+  // show_loading();
   $.ajax({
     type: "GET",
     url: my_url,
@@ -37,8 +37,8 @@ function show_loading() {
     $("#div-alert").show();
   }
   function hide_error() {
-    $("#div-alert").removeClass("alert-warning").removeClass("alert-success").removeClass("alert-danger");
     $("#div-alert").html("");
+    $("#div-alert").removeClass("alert-warning").removeClass("alert-success").removeClass("alert-danger");
     $("#div-alert").hide();
   }
   function show_error(errormsg) {
