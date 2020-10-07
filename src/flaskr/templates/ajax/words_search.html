@@ -18,14 +18,7 @@
         <button id="all_select" class="btn btn-primary">Search</button>
     </div>
     <div id="song_option" class="options form-group">
-        <label for="song_choose">Choose Song</label>
-        <select id= "song_choose"  class="form-control">
-            {% for song in songs %}
-            <option value="{{song [0] }}">{{ song[1] }}</option>
-            {% endfor %}
-        </select>
-        <br />
-        <button id="song_select" class="btn btn-primary">Search</button>
+        {% include 'ajax/songs_select.html' %}
     </div>
 </div>
 
