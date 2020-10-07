@@ -22,6 +22,7 @@
     </div>
 </div>
 
+<div id="word_stats"></div>
 <script>
 $('input:radio[name="filter"]').change(function() {
     $(".options").hide();
@@ -29,12 +30,12 @@ $('input:radio[name="filter"]').change(function() {
 });
 
 $("#all_select").click(function() {
-    load_ajax_url("{{ url_for('ajax.get_words') }}");
+    load_ajax_url("{{ url_for('ajax.get_words') }}",data={},target="#word_stats");
 });
 
 $("#song_select").click(function() {
     var value = $("#song_choose").children("option:selected").val();
-    load_ajax_url(`{{ url_for('ajax.get_words') }}?song_id=${value}`);
+    load_ajax_url(`{{ url_for('ajax.get_words') }}?song_id=${value}`,data={}, target="#word_stats");
 });
 
 $(".options").hide();
