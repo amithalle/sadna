@@ -1,4 +1,4 @@
-function load_ajax_url(my_url,data={}) {
+function load_ajax_url(my_url,data={},target="#div-content") {
   // show_loading();
   $.ajax({
     type: "GET",
@@ -6,7 +6,7 @@ function load_ajax_url(my_url,data={}) {
     data: data,
     success: function(msg) {
       hide_error();
-      $("#div-content").html(msg + "<br>");
+      $(target).html(msg + "<br>");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       show_error("Error #" + jqXHR.status + ": " + errorThrown);
