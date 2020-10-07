@@ -51,3 +51,7 @@ def get_words():
         data = get_song.get_all_words()
 
     return render_template("ajax/words_table.html", words=data)
+
+@bp.route("/words_in_song", methods=["GET"])
+def get_words_in_song_form():
+    return render_template("ajax/words_search.html",songs=get_song.get_all_songs())

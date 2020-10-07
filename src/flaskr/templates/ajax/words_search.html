@@ -1,0 +1,50 @@
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+    <label for="all_check" class="btn btn-secondary active">
+    <input type="radio" id="all_check" name="filter" value="all">All Songs</label>
+    <label for="song_check" class="btn btn-secondary">
+    <input type="radio" id="song_check" name="filter" value="song" checked>Choose Song</label>
+</div>
+<br />
+<br />
+<div id="option">
+    <div id="all_option" class="options form-group">
+        <label for="dummy_for_all">All Songs</label>
+        
+        <select id= "dummy_for_all" class="form-control"  readonly>
+            <option>All Songs</option>
+        </select>
+        <br />
+        <button id="all_select" class="btn btn-primary">Search</button>
+    </div>
+    <div id="song_option" class="options form-group">
+        <label for="song_choose">Choose Song</label>
+        <select id= "song_choose"  class="form-control">
+            {% for song in songs %}
+            <option value="{{song [0] }}">{{ song[1] }}</option>
+            {% endfor %}
+        </select>
+        <br />
+        <button id="song_select" class="btn btn-primary">Search</button>
+    </div>
+</div>
+
+<script>
+$('input:radio[name="filter"]').change(function() {
+    $(".options").hide();
+    $('#' + $(this).val() + "_option").show();
+});
+
+$("#all_select").click(function() {
+    load_ajax_url("{{ url_for('ajax.get_words') }}");
+});
+
+$("#song_select").click(function() {
+    var value = $("#song_choose").children("option:selected").val();
+    load_ajax_url(`{{ url_for('ajax.get_words') }}?song_id=${value}`);
+});
+
+$(".options").hide();
+$("#song_check").change();
+
+</script>

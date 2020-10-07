@@ -92,3 +92,7 @@ def get_song_by_field():
         return render_template("ajax/songs.html", songs=data)
     else:
         return "there was an error somewhere", status.HTTP_500_INTERNAL_SERVER_ERROR
+
+@bp.route("/all_songs", methods=["GET"])
+def get_all_songs():
+    return jsonify(get_song.get_all_songs())
