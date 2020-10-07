@@ -1,0 +1,9 @@
+{% include 'ajax/songs_select.html' %}
+<div id="word_index_table"></div>
+<script>
+    $("#song_select").click(function() {
+    var value = $("#song_choose").children("option:selected").val();
+    load_ajax_url(`{{ url_for('ajax.get_word_index') }}?song_id=${value}`,data={}, target="#word_index_table");
+});
+
+</script>

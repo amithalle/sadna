@@ -1,0 +1,26 @@
+<table id="words" class="display">
+    <thead>
+        <th>Word</th>
+        <th>Stanza Index</th>
+        <th>Stanza Line Index</th>
+        <th>Global Line Index</th>
+        <th>Line Word Index</th>
+    </thead>
+    <tbody>
+        {% for word in words %}
+        <tr>
+            <td>{{word[0]}}</td>
+            <td>{{word[2]}}</td>
+            <td>{{word[3]}}</td>
+            <td>{{word[4]}}</td>
+            <td>{{word[5]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $(document).ready(function() {
+        $('#words').DataTable();
+    } );
+
+</script>

@@ -55,3 +55,14 @@ def get_words():
 @bp.route("/words_in_song", methods=["GET"])
 def get_words_in_song_form():
     return render_template("ajax/words_search.html",songs=get_song.get_all_songs())
+
+@bp.route("/words_index_form", methods=["GET"])
+def get_word_index_form():
+    return render_template("ajax/word_index_form.html",songs=get_song.get_all_songs())
+
+@bp.route("/words_index", methods=["GET"])
+def get_word_index():
+    if "song_id" in request.values:
+        return render_template("ajax/word_index.html",words=get_song.get_words_for_song(request.values["song_id"]))
+    else:
+        return "song_id is needed", status.HTTP_400_BAD_REQUEST
