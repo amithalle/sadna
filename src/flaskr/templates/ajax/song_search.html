@@ -33,6 +33,8 @@
     </div>
     <input type="submit" value="Submit" class="btn btn-primary">
   </form>
+<br />
+<div id="song_list"></div>
 
 <script>
   $('input:radio[name="field"]').change(function() {
@@ -43,7 +45,7 @@
   $(".search_form_option").hide();
   $("#song_name_check").change();
   $("#search_form").submit(e =>{
-    load_ajax_url("{{ url_for('api.get_song_by_field') }}", $("#search_form").serialize());
+    load_ajax_url("{{ url_for('api.get_song_by_field') }}", $("#search_form").serialize(),"#song_list");
     e.preventDefault();
   })
 </script>
