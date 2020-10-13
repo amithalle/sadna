@@ -1,6 +1,6 @@
 <label for="song_choose">Choose Song</label>
 <select id= "song_choose"  class="form-control" name="song_id">
-    <option hidden disabled selected value> -- select an option -- </option>
+    <option hidden disabled selected value> -- select a song -- </option>
     {% for song in songs %}
     <option value="{{song [0] }}">{{ song[3] }}</option>
     {% endfor %}
