@@ -75,3 +75,7 @@ def get_occurrences():
     song_id = song_id if song_id != "" else None # make emapty string become none
     data = get_song.get_word_context(request.values["word"], song_id)
     return render_template("ajax/word_occurences.html", occurences=data)
+
+@bp.route("/word_by_index", methods=["GET"])
+def word_by_index():
+    return render_template("ajax/word_by_index.html", songs=get_song.get_all_songs())

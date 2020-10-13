@@ -86,6 +86,9 @@ def get_words_for_song(song_id):
 def get_word_by_global_index(song_id, line_index, word_index):
     return conn().select("select word from words where songID = ? and lineGlobalindex = ? and wordindex = ?",[song_id, line_index, word_index])
 
+def get_word_by_stanza_index(song_id, stanza_index, line_index, word_index):
+    return conn().select("select word from words where songID = ? and stanzaindex =? and lineindex = ? and wordindex = ?",[song_id, stanza_index, line_index, word_index])
+
 # for x in get_word_context("new",1):
 #     print(x)
 #     print()

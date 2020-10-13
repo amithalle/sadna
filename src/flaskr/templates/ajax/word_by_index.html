@@ -1,0 +1,50 @@
+<form id="search_word" class="form-group">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+        <label for="by_stanza" class="btn btn-secondary active">
+            <input type="radio" id="by_stanza" name="index_by" value="stanza" checked>Stanza-Line Index</label>
+        <label for="by_global" class="btn btn-secondary">
+            <input type="radio" id="by_global" name="index_by" value="global">Global Line Index</label>
+    </div>
+
+    {% include 'ajax/songs_select.html' %}
+
+    <div id="option">
+        <div id="by_stanza_option" class="options form-group">
+            <label for="stanza_index">Stanza Index</label>
+            <input id="stanza_index" class="form-control" type="number" name="stanza_index" />
+        </div>
+    </div>
+    <label for="line_index">Line Index</label>
+    <input id= "line_index" class="form-control" type="number" name="line_index" />
+    <label for="word_index">Word Index</label>
+    <input id= "word_index" class="form-control" type="number" name="word_index" />
+</form>
+<button id="search" class="btn btn-primary">Search</button>
+
+<div id="word_result" class="">
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#song_select").remove();
+     });
+
+    $("#search").click(function(){
+        $.getJSON("{{ url_for('api.word_by_index') }}", $("#search_word").serialize() ,function (data,status, xhr) {
+            $("#word_result").html(`<br><div class="alert alert-success fade show" role="alert">${data}</div>`);
+    
+        }).fail(function(jqXHR, textStatus, errorThrown) {$("#word_result").html(`<br><div class="alert alert-danger fade show" role="alert">${jqXHR.responseText}</div>`); }); 
+    });
+
+    $('input:radio[name="index_by"]').change(function() {
+        if ($(this).val() == "stanza"){
+            $("#option").show();
+        }
+        else {
+            $("#option").hide();
+        }
+    });
+
+</script>

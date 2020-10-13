@@ -96,3 +96,33 @@ def get_song_by_field():
 @bp.route("/all_songs", methods=["GET"])
 def get_all_songs():
     return jsonify(get_song.get_all_songs())
+
+
+@bp.route("/word_by_index", methods=["GET"])
+def word_by_index():
+    word = []
+    for val in ["word_index", "line_index","song_id","index_by"]:
+        if val not in request.values or request.values[val] is None or request.values[val] == "":
+            return val + " is needed", status.HTTP_400_BAD_REQUEST
+    
+    if request.values["index_by"] == "stanza":
+        if "stanza_index" not in request.values:
+            return "stanza_index is needed", status.HTTP_400_BAD_REQUEST
+        else:
+            word = get_song.get_word_by_stanza_index(request.values["song_id"],
+                                                     request.values["stanza_index"],
+                                                     request.values["line_index"],
+                                                     request.values["word_index"])
+            
+    elif request.values["index_by"] == "global":
+            word = get_song.get_word_by_global_index(request.values["song_id"],
+                                                request.values["line_index"],
+                                                request.values["word_index"])
+
+    else:
+        return "unknown index_by option: " + request.values["index_by"], status.HTTP_400_BAD_REQUEST
+
+    if len(word) > 0:
+        return jsonify(word[0][0])
+    else:
+        return "word not found", status.HTTP_400_BAD_REQUEST
