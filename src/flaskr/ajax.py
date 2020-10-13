@@ -66,3 +66,12 @@ def get_word_index():
         return render_template("ajax/word_index.html",words=get_song.get_words_for_song(request.values["song_id"]))
     else:
         return "song_id is needed", status.HTTP_400_BAD_REQUEST
+
+@bp.route("/word_occurences", methods=["GET"])
+def get_occurrences():
+    if "word" not in request.values:
+        return "word is needed", status.HTTP_400_BAD_REQUEST
+    song_id = request.values["song_id"] if  "song_id" in request.values else None
+    song_id = song_id if song_id != "" else None # make emapty string become none
+    data = get_song.get_word_context(request.values["word"], song_id)
+    return render_template("ajax/word_occurences.html", occurences=data)

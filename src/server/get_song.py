@@ -58,12 +58,16 @@ def get_songs_by_id(id_list):
 # print( get_songs_by_name("amit"))
 # print( get_songs_by_date_range('2020-11-21', '2020-11-23'))
 
-def get_word_context(word, song_id):
-    occurences = conn().select("select * from words where word  = ? and songID = ?", [word, song_id])
+def get_word_context(word, song_id=None):
+    if song_id is not None:
+        occurences = conn().select("select * from words where word  = ? and songID = ?", [word, song_id])
+    else:
+        occurences = conn().select("select * from words where word  = ?", [word])
+
 
     all_contexts = []
     for oc in occurences:
-        context = conn().select("select * from words where songID = ? and lineGlobalindex between ? and ? order by lineGlobalindex asc, wordindex asc",[song_id, oc[4] - 1, oc[4] + 1])
+        context = conn().select("select * from words where songID = ? and lineGlobalindex between ? and ? order by lineGlobalindex asc, wordindex asc",[oc[1], oc[4] - 1, oc[4] + 1])
         context_text = create_text_from_words(context)
         all_contexts.append(context_text)
 

@@ -5,7 +5,7 @@
     </thead>
     <tbody>
         {% for word in words %}
-        <tr>
+        <tr onclick="get_occurrences('{{word[0]}}')">
             <td>{{word[0]}}</td>
             <td>{{word[1]}}</td>
         </tr>
@@ -16,5 +16,9 @@
     $(document).ready(function() {
         $('#words').DataTable();
     } );
+
+    function get_occurrences(word){
+        load_ajax_url(`{{ url_for('ajax.get_occurrences')}}`, {song_id:$("#song_context").val(), word:word});
+    }
 
 </script>

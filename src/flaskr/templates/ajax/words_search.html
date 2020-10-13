@@ -21,20 +21,29 @@
         {% include 'ajax/songs_select.html' %}
     </div>
 </div>
-
+<input type="hidden" id="song_context" name="song_context" value="">
 <div id="word_stats"></div>
 <script>
 $('input:radio[name="filter"]').change(function() {
     $(".options").hide();
     $('#' + $(this).val() + "_option").show();
+    if ($(this).val() =="all"){
+        $("#song_context").value = "";
+    }
+    else{
+        $("#song_context").value = $(this).val();
+    }
 });
 
 $("#all_select").click(function() {
+    $("#song_context").val("");
+
     load_ajax_url("{{ url_for('ajax.get_words') }}",data={},target="#word_stats");
 });
 
 $("#song_select").click(function() {
     var value = $("#song_choose").children("option:selected").val();
+    $("#song_context").val(value);
     load_ajax_url(`{{ url_for('ajax.get_words') }}?song_id=${value}`,data={}, target="#word_stats");
 });
 
