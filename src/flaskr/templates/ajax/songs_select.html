@@ -2,7 +2,7 @@
 <select id= "song_choose"  class="form-control" name="song_id">
     <option hidden disabled selected value> -- select an option -- </option>
     {% for song in songs %}
-    <option value="{{song [0] }}">{{ song[1] }}</option>
+    <option value="{{song [0] }}">{{ song[3] }}</option>
     {% endfor %}
 </select>
 <br />
