@@ -19,9 +19,17 @@ def create_word_group(group_name, words):
 def get_groups():
     return conn().select("select * from word_groups")
 
+def get_group_name(id):
+    return conn().select("select group_name from word_groups where group_id = ?", [id])
+
+
 def add_words_to_group(group_id, words):
     for word in words:
-        conn().execStatement("insert into word_in_group (group_id, word) values(?,?)",[group_id, word])
+        try:
+            conn().execStatement("insert into word_in_group (group_id, word) values(?,?)",[group_id, word])
+        except:
+            # ingore duplicates
+            pass
 
 def get_words_in_group(group_id):
     return [x[0] for x in conn().select("select word from word_in_group where group_id = ?", [group_id])]

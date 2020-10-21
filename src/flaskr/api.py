@@ -7,7 +7,7 @@ from flask_api import status
 import os
 from werkzeug.utils import secure_filename
 from server import get_song
-from server import create_song
+from server import create_song, word_groups
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -126,3 +126,31 @@ def word_by_index():
         return jsonify(word[0][0])
     else:
         return "word not found", status.HTTP_400_BAD_REQUEST
+
+
+@bp.route("/create_group", methods=["POST"])
+def create_group():
+    if "group_name" not in request.values:
+        return "group_name is required", status.HTTP_400_BAD_REQUEST
+    elif request.values["group_name"] == "": 
+        return "group_name cannot be empty", status.HTTP_400_BAD_REQUEST
+    else:
+        id = word_groups.create_word_group(request.values["group_name"],[])
+
+        return jsonify(id)
+
+@bp.route("/add_words_to_group", methods=["POST"])
+def add_word_to_group():
+    if "group_id" not in request.values:
+        return "group_id is required", status.HTTP_400_BAD_REQUEST
+    
+    if "word" not in request.values:
+        return "word is required", status.HTTP_400_BAD_REQUEST
+    
+    if request.values["word"] == "": 
+        return "word cannot be empty", status.HTTP_400_BAD_REQUEST
+
+    word_groups.add_words_to_group(request.values["group_id"],[request.values["word"]] )
+
+    return "OK"
+

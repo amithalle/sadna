@@ -5,7 +5,7 @@ from flask import (
 )
 from flask_api import status
 
-from server import get_song
+from server import get_song, word_groups
 
 bp = Blueprint('ajax', __name__, url_prefix='/ajax')
 
@@ -79,3 +79,31 @@ def get_occurrences():
 @bp.route("/word_by_index", methods=["GET"])
 def word_by_index():
     return render_template("ajax/word_by_index.html", songs=get_song.get_all_songs())
+
+
+@bp.route("/get_word_groups", methods=["GET"])
+def get_word_groups():
+    return render_template("ajax/word_groups.html", groups=word_groups.get_groups())
+
+@bp.route("/words_in_group", methods=["GET"])
+def get_word_group():
+    if "group_id" not in request.values:
+        return "group_id is required", status.HTTP_400_BAD_REQUEST
+    else:
+
+        group_id = request.values["group_id"]
+        words = word_groups.get_words_in_group(group_id)
+        return render_template("ajax/word_group_details.html", words=words, group_id=group_id, group_name=word_groups.get_group_name(group_id)[0][0])
+
+
+@bp.route("/group_occurences", methods=["GET"])
+def group_occurences():
+    if "group_id" not in request.values:
+        return "group_id is required", status.HTTP_400_BAD_REQUEST
+    else:
+        group_id = request.values["group_id"]
+
+        words = word_groups.get_words_in_group(group_id)
+        occurences = get_song.get_word_context(words)
+        return render_template("ajax/word_occurences.html", occurences=occurences)
+

@@ -59,11 +59,32 @@ def get_songs_by_id(id_list):
 # print( get_songs_by_date_range('2020-11-21', '2020-11-23'))
 
 def get_word_context(word, song_id=None):
-    if song_id is not None:
-        occurences = conn().select("select * from words where word  = ? and songID = ?", [word, song_id])
-    else:
-        occurences = conn().select("select * from words where word  = ?", [word])
+    word_condition= ""
+    song_condition = ""
+    params = []
+    if isinstance(word, (list, tuple)):
+        param_arr = ",".join(["?" for x in range (len(word))])
 
+        word_condition = "word in ({})".format(param_arr)
+        [params.append(x) for x in word]
+    else:
+        word_condition = "word = ?"
+        params.append(word)
+    
+    if song_id is not None:
+
+        if isinstance(song_id, (list, tuple)):
+            param_arr = ",".join(["?" for x in range (len(song_id))])
+            song_condition = "and songID in ({})".format(param_arr)
+            [params.append(x) for x in song_id]
+
+        else:
+            song_condition = "and songID = ?"
+            params.append(song_id)
+
+
+
+    occurences = conn().select("select * from words where {} {}".format(word_condition, song_condition), params=params)
 
     all_contexts = []
     for oc in occurences:

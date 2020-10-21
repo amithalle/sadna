@@ -1,0 +1,63 @@
+
+<br />
+<label for="group_name_display">Group Name</label>
+<input type="text" id="group_name_display" disabled class="form-control" value="{{ group_name }}">
+<input type="hidden" id="group_id" value="{{ group_id }}">
+
+<button id="search_group_occurences" class="btn btn-primary">Search Occurrences</button>
+<button id="add_Word_to_group" class="btn btn-info">+</button>
+<div id="add_word" >
+    <label for="word_to_add">Word to Add</label>
+    <input id="word_to_add" name="word_to_add" type="text" placeholder="Enter Word">
+    <button id="send_add_word" class="btn btn-info">Submit</button>
+</div>
+
+<br />
+<br />
+<label for="words_in_group">Words in Group</label>
+<table id="words_in_group" class="table">
+    <tbody>
+        {% for word in words %}
+        <tr>
+            <td>{{ word }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function(){
+        $("#add_word").hide();
+    });
+
+    $("#search_group_occurences").click(function() {
+        var group_id = $("#group_id").val();
+        load_ajax_url(`{{ url_for('ajax.group_occurences') }}?group_id=${group_id}`,data={});
+    });
+
+    $("#add_Word_to_group").click(function() {
+        $("#add_word").show();
+    });
+
+    $("#send_add_word").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('api.add_word_to_group') }}",
+            data: {word: $("#word_to_add").val(), group_id: $("#group_id").val() },
+            success: function(resp) {
+
+                $("#add_word").hide();
+                $("#words_in_group").find('tbody').append($('<tr>').append($('<td>').text($("#word_to_add").val())));
+                $("#word_to_add").val("")
+
+                
+                        
+
+                },
+            error: function(jqXHR, textStatus, errorThrown) {
+                show_error("Error #" + jqXHR.status + ": " + errorThrown);
+            }
+        });
+    });
+
+</script>

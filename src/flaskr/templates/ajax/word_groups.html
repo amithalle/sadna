@@ -1,0 +1,55 @@
+
+<button id="create_new_group" class="btn btn-info">Create New Group</button>
+<div id="create_group" >
+    <label for="group_name">Group Name</label>
+    <input id="group_name" name="group_name" type="text" placeholder="Enter Group Name">
+    <button id="send_create_group" class="btn btn-info">Submit</button>
+</div>
+<div id="choose_group">
+<label for="group_select">Choose Group</label>
+<select id="group_select" name="group" class="form-control">
+    <option hidden disabled selected value> -- select a group -- </option>
+
+    {% for group in groups %}
+    <option id="group_option_{{ group }}" value="{{ group[0] }}">{{ group[1] }}</option>
+    {% endfor %}
+</select>
+
+<button id="choose_group_button" class="btn btn-primary">Search</button>
+</div>
+<div id="word_group"></div>
+
+
+
+<script>
+
+    $(document).ready(function(){
+        $("#create_group").hide();
+    });
+    
+    $("#choose_group_button").click(function(){
+        var value = $("#group_select").children("option:selected").val();
+        load_ajax_url(`{{ url_for('ajax.get_word_group') }}?group_id=${value}`,data={}, target="#word_group");
+
+    });
+
+    $("#create_new_group").click(function(){
+        $("#create_group").show();
+
+    });
+
+    $("#send_create_group").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('api.create_group') }}",
+            data: {group_name: $("#group_name").val() },
+            success: function(resp) {
+                $("#create_group").hide();
+                load_ajax_url(`{{ url_for('ajax.get_word_group') }}?group_id=${resp}`,data={}, target="#word_group");
+                },
+            error: function(jqXHR, textStatus, errorThrown) {
+                show_error("Error #" + jqXHR.status + ": " + errorThrown);
+            }
+        });
+    });
+</script>
