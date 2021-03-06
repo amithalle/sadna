@@ -5,13 +5,14 @@
 <input type="hidden" id="group_id" value="{{ group_id }}">
 
 <button id="search_group_occurences" class="btn btn-primary">Search Occurrences</button>
-<button id="add_Word_to_group" class="btn btn-info">+</button>
+<button id="add_Word_to_group" class="btn btn-info">Add Word</button>
 <div id="add_word" >
     <label for="word_to_add">Word to Add</label>
     <input id="word_to_add" name="word_to_add" type="text" placeholder="Enter Word">
     <button id="send_add_word" class="btn btn-info">Submit</button>
 </div>
 
+<div id="group_occurences"></div>
 <br />
 <br />
 <label for="words_in_group">Words in Group</label>
@@ -32,7 +33,7 @@
 
     $("#search_group_occurences").click(function() {
         var group_id = $("#group_id").val();
-        load_ajax_url(`{{ url_for('ajax.group_occurences') }}?group_id=${group_id}`,data={});
+        load_ajax_url(`{{ url_for('ajax.group_occurences') }}`, data={"group_id": group_id}, target="#group_occurences");
     });
 
     $("#add_Word_to_group").click(function() {
