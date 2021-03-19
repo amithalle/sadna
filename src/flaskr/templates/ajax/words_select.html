@@ -1,0 +1,8 @@
+<label for="words_choose">Choose Words</label>
+<select id= "words_choose"  class="form-control" name="words" multiple>
+    <option hidden disabled selected value> -- select words -- </option>
+    {% for word in words %}
+    <option value="{{word }}">{{word}}</option>
+    {% endfor %}
+</select>
+<br />

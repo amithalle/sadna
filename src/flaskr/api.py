@@ -147,10 +147,12 @@ def add_word_to_group():
     if "word" not in request.values:
         return "word is required", status.HTTP_400_BAD_REQUEST
     
-    if request.values["word"] == "": 
+    if request.values["word"] == "" and len(request.values["words"]) == 0: 
         return "word cannot be empty", status.HTTP_400_BAD_REQUEST
-
-    word_groups.add_words_to_group(request.values["group_id"],[request.values["word"]] )
+    words_to_add = [request.values["word"]]
+    words_to_add.append(request.values["words"])
+    words_to_add.remove("")
+    word_groups.add_words_to_group(request.values["group_id"], words_to_add )
 
     return "OK"
 

@@ -4,21 +4,23 @@
 <input type="text" id="group_name_display" disabled class="form-control" value="{{ group_name }}">
 <input type="hidden" id="group_id" value="{{ group_id }}">
 
-<button id="search_group_occurences" class="btn btn-primary">Search Occurrences</button>
+<button id="search_group_occurences" class="btn btn-primary mb-3">Search Occurrences</button>
+<br />
 <button id="add_Word_to_group" class="btn btn-info">Add Word</button>
 <div id="add_word" >
     <label for="word_to_add">Word to Add</label>
-    <input id="word_to_add" name="word_to_add" type="text" placeholder="Enter Word">
+    <input id="word_to_add" name="word_to_add" type="text" placeholder="Enter Word" class="form-control">
+    {% include 'ajax/words_select.html' %}
     <button id="send_add_word" class="btn btn-info">Submit</button>
 </div>
 
 <div id="group_occurences"></div>
 <br />
-<br />
+<hr />
 <label for="words_in_group">Words in Group</label>
 <table id="words_in_group" class="table">
     <tbody>
-        {% for word in words %}
+        {% for word in group_words %}
         <tr>
             <td>{{ word }}</td>
         </tr>
@@ -44,16 +46,12 @@
         $.ajax({
             type: "POST",
             url: "{{ url_for('api.add_word_to_group') }}",
-            data: {word: $("#word_to_add").val(), group_id: $("#group_id").val() },
+            data: {word: $("#word_to_add").val(), group_id: $("#group_id").val(), words: $("#words_choose").children("option:selected").val()},
             success: function(resp) {
 
                 $("#add_word").hide();
                 $("#words_in_group").find('tbody').append($('<tr>').append($('<td>').text($("#word_to_add").val())));
                 $("#word_to_add").val("")
-
-                
-                        
-
                 },
             error: function(jqXHR, textStatus, errorThrown) {
                 show_error("Error #" + jqXHR.status + ": " + errorThrown);
