@@ -23,28 +23,24 @@
 
 <body>
   <nav>
-    <h1 onclick="window.location='/'">Concordance</h1>
+    <h1 onclick="window.location='/'" class="mb-2">Concordance</h1>
   </nav>
-{% for message in get_flashed_messages() %}
-  <div class="flash">{{ message }}</div>
-  {% endfor %}
-  <div id="div-alert" class="alert alert-message"></div>
+  <div id="div-alert"></div>
   <section class="content">
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
-      <ul>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_songs')}}')" class="button">Show Song list</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_song_form')}}')">Upload Song</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_song_search')}}')">Search Songs</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_words_in_song_form')}}')">Words Statistics</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_word_index_form')}}')">Song Word Index</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.word_by_index')}}')">Find Word by Index</li>
-        <li onclick="load_ajax_url('{{ url_for('ajax.get_word_groups')}}')">Word Groups</li>
-      </ul>
-    </div>
-    <div id="div-content">
-      {% block content %}{% endblock %}
-    </div>
+    <div class="btn-group btn-group-toggle mb-3" >
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_songs')}}')" class="btn btn-secondary">Show Song list</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_song_form')}}')" class="btn btn-secondary">Upload Song</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_song_search')}}')" class="btn btn-secondary" >Search Songs</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_words_in_song_form')}}')" class="btn btn-secondary">Words Statistics</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_word_index_form')}}')" class="btn btn-secondary">Song Word Index</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.word_by_index')}}')" class="btn btn-secondary">Find Word by Index</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_word_groups')}}')" class="btn btn-secondary">Word Groups</button>
+        <button onclick="load_ajax_url('{{ url_for('ajax.get_word_relations')}}')" class="btn btn-secondary">Word Relations</button>
+      </div>
+      
+      <div id="div-content">
+        {% block content %}{% endblock %}
+      </div>
   </section>
 </body>
 
