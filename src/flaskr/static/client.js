@@ -46,4 +46,7 @@ function show_loading() {
     $("#div-alert").html(errormsg);
     $("#div-alert").show();
   }
-    
+  
+  $(document).ready(function () {
+    hide_error();
+  });
