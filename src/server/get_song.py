@@ -90,7 +90,7 @@ def get_word_context(word, song_id=None):
     for oc in occurences:
         context = conn().select("select * from words where songID = ? and lineGlobalindex between ? and ? order by lineGlobalindex asc, wordindex asc",[oc[1], oc[4] - 1, oc[4] + 1])
         context_text = create_text_from_words(context)
-        all_contexts.append(context_text)
+        all_contexts.append({"text": context_text, "song_id": oc[1]})
 
     return all_contexts
 

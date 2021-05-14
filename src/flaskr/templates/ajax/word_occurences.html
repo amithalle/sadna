@@ -1,7 +1,13 @@
 <b>Word Occurences: {{word }}</b>
-{% for text in occurences %}
-<div id="occ_{{ loop_index }}" class="occurence">
+<p>&#9432; Click on a text to see the whole song in the bottpm</p>
+
+{% for occ in occurences %}
+{% set text = occ.text %}
+<div id="occ_{{ loop_index }}" class="occurence" onclick="load_ajax_url('{{ url_for('ajax.get_song_text')}}?song_id={{ occ.song_id }}', {}, '#song_text')">
     {% include 'ajax/song_text.html' %}
     <br />
 </div>
 {% endfor %}
+<div class="mb-2"></div>
+<b>Whole Song Text</b>
+<div id="song_text"></div>
