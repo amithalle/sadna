@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         {% for song in songs %}
-        <tr onclick="load_ajax_url('{{ url_for('ajax.get_song_text')}}?song_id={{ song[0] }}')">
+        <tr onclick="load_ajax_url('{{ url_for('ajax.get_song_text')}}?song_id={{ song[0] }}', {}, '#song_text')">
             <td>{{ song[0]}}</td>
             <td>{{ song[3]}}</td>
             <td>{{ song[1]}}</td>
@@ -17,6 +17,8 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="mb-2"></div>
+<div id="song_text"></div>
 <script>
     $(document).ready(function() {
         $('#songs').DataTable();
