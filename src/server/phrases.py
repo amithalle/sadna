@@ -30,7 +30,8 @@ def find_phrase_in_song(song_id, phrase_id):
     if phrase is None:
         return []
     
-    occurences = conn().select("select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex + "_" + wordindex rows %s preceding) phrase from words where songid  = %s) where phrase = %s", [phrase[2],song_id, phrase[1]])
+    occurences = conn().select('select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex + "_" + wordindex rows %s preceding) phrase from words where songid  = %s) where phrase = %s', [phrase[2],song_id, phrase[1]])
+    return occurences
 
     
 
