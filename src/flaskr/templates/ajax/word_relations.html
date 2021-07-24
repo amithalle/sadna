@@ -1,0 +1,42 @@
+<b>Word Relations</b>
+<table id="relations" class="display dataTable">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+    </thead>
+    <tbody>
+        {% for relation in relation_list %}
+        <tr>
+            <td>{{ relation[0]}}</td>
+            <td>{{ relation[1]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+<button type="button" id="add_rel_btn" class="btn btn-primary">Add New Relation</button>
+<div id="add_relation" hidden>
+    <input type="text" name="relation_name" id="relation_name" placeholder="Enter Relation Name">
+    <button type="button" id="relation_name">Submit</button>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#relations').DataTable();
+        $("#relation_name").click(function(){
+            $.ajax({
+            type: "POST",
+            url: "{{ url_for('api.add_word_relation') }}",
+            data: {word: $("#word_to_add").val(), group_id: $("#group_id").val(), words: $("#words_choose").children("option:selected").val()},
+            success: function(resp) {
+
+                $("#add_word").hide();
+                $("#words_in_group").find('tbody').append($('<tr>').append($('<td>').text($("#word_to_add").val())));
+                $("#word_to_add").val("")
+                },
+            error: function(jqXHR, textStatus, errorThrown) {
+                show_error("Error #" + jqXHR.status + ": " + errorThrown);
+            }
+        });
+        })
+    } );
+</script>

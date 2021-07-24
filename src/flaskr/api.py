@@ -7,7 +7,7 @@ from flask_api import status
 import os
 from werkzeug.utils import secure_filename
 from server import get_song
-from server import create_song, word_groups
+from server import create_song, word_groups, word_relations
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -156,3 +156,19 @@ def add_word_to_group():
 
     return "OK"
 
+@bp.route("/add_word_to_word_relation", methods=["POST"])
+def add_word_to_word_relation():
+    if "words" not in request.values:
+        return "words is required", status.HTTP_400_BAD_REQUEST
+    elif len(request.values["words"]) != 2:
+        return "words must be an array of 2 words", status.HTTP_400_BAD_REQUEST
+    
+    if "relation_id" not in request.values:
+        return "relation_id is required", status.HTTP_400_BAD_REQUEST
+    
+@bp.route("/add_word_relation", methods=["POST"])
+def add_word_relation():
+    if "relation_name" not in request.values:
+        return "relation_name is required", status.HTTP_400_BAD_REQUEST
+
+    return word_relations.create_relation(request.values["relation_name"]), status.HTTP_201_CREATED

@@ -9,6 +9,8 @@ class DBConn:
         self.execStatement("create table if not exists songs ( song_id int , author string,  create_date date, song_name string)")
         self.execStatement("create table if not exists word_groups ( group_id int, group_name string)")
         self.execStatement("create table if not exists word_in_group ( group_id int, word string)")
+        self.execStatement("create table if not exists word_relations ( relation_id int, relation_name string)")
+        self.execStatement("create table if not exists word_to_word_relations ( relation_id int, first_word string, second_word string)")
 
 
     def openConn(self):

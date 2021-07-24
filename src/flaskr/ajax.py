@@ -5,7 +5,7 @@ from flask import (
 )
 from flask_api import status
 
-from server import get_song, word_groups
+from server import get_song, word_groups, word_relations
 
 bp = Blueprint('ajax', __name__, url_prefix='/ajax')
 
@@ -111,3 +111,8 @@ def group_occurences():
         occurences = get_song.get_word_context(words)
         return render_template("ajax/word_occurences.html", occurences=occurences)
 
+
+@bp.route("/get_word_relations", methods=["GET"])
+def get_word_relations():
+    relation_list = word_relations.get_word_relations()
+    return render_template("ajax/word_relations.html", relation_list=relation_list)
