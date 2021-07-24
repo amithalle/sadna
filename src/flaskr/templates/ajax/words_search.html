@@ -12,7 +12,7 @@
         <label for="dummy_for_all">All Songs</label>
         
         <select id= "dummy_for_all" class="form-control"  readonly>
-            <option>All Songs</option>
+            <option hidden disabled selected value>All Songs</option>
         </select>
         <br />
         <button id="all_select" class="btn btn-primary">Search</button>
@@ -48,6 +48,6 @@ $("#song_select").click(function() {
 });
 
 $(".options").hide();
-$("#song_check").change();
+$("#all_check").change();
 
 </script>
