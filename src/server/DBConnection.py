@@ -11,6 +11,7 @@ class DBConn:
         self.execStatement("create table if not exists word_in_group ( group_id int, word string)")
         self.execStatement("create table if not exists word_relations ( relation_id int, relation_name string)")
         self.execStatement("create table if not exists word_to_word_relations ( relation_id int, first_word string, second_word string)")
+        self.execStatement("create table if not exists phrases ( phrase_id int primary key, phrase string not null, length int not null)")
 
 
     def openConn(self):
