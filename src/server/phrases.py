@@ -8,7 +8,7 @@ def create_phrase(phrase):
     if max_id is None:
         max_id = -1
 
-    conn().execStatement("insert into phrases (phrase_id, phrase, length) values (%s, %s,%s)", [max_id +1, phrase, count_words])
+    conn().execStatement("insert into phrases (phrase_id, phrase, length) values (?, ?, ?)", [max_id +1, phrase, count_words])
     return max_id + 1
 
 
