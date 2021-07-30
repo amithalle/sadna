@@ -7,7 +7,7 @@ from flask_api import status
 import os
 from werkzeug.utils import secure_filename
 from server import get_song
-from server import create_song, word_groups, word_relations
+from server import create_song, word_groups, word_relations, phrases
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -172,3 +172,13 @@ def add_word_relation():
         return "relation_name is required", status.HTTP_400_BAD_REQUEST
 
     return word_relations.create_relation(request.values["relation_name"]), status.HTTP_201_CREATED
+
+
+@bp.route("/add_phrase", methods=["POST"])
+def add_phrase():
+    if "phrase" not in request.values or request.values["phrase"] is None or request.values["phrase"] == "":
+        return "phrase is required", status.HTTP_400_BAD_REQUEST
+
+    return jsonify(phrases.create_phrase(request.values["phrase"])), status.HTTP_201_CREATED
+
+
