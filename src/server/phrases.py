@@ -29,9 +29,14 @@ def find_phrase_in_song(song_id, phrase_id):
 
     if phrase is None:
         return []
-    
-    occurences = conn().select('select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex + "_" + wordindex rows %s preceding) phrase from words where songid  = %s) where phrase = %s', [phrase[2],song_id, phrase[1]])
-    return occurences
+    else:
+        return find_phrase_words_in_song(song_id, phrase[1])
+
+def find_phrase_words_in_song(song_id, phrase_words):
+    phrase_length = len(phrase_words.split(" "))
+    occurences = conn().select('select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex + "_" + wordindex rows %s preceding) phrase from words where songid  = %s) where phrase = %s', [phrase_length, song_id, phrase_words])
+    contexts = [get_song.get_line_context(song_id, x[0]) for x in occurences]
+    return contexts
 
     
 
