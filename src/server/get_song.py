@@ -82,15 +82,11 @@ def get_word_context(word, song_id=None):
             song_condition = "and songID = ?"
             params.append(song_id)
 
-
-
     occurences = conn().select("select * from words where {} {}".format(word_condition, song_condition), params=params)
 
     all_contexts = []
     for oc in occurences:
-        context = conn().select("select * from words where songID = ? and lineGlobalindex between ? and ? order by lineGlobalindex asc, wordindex asc",[oc[1], oc[4] - 1, oc[4] + 1])
-        context_text = create_text_from_words(context)
-        all_contexts.append({"text": context_text, "song_id": oc[1]})
+        all_contexts.append(get_line_context(oc[1],oc[4]))
 
     return all_contexts
 
@@ -109,6 +105,12 @@ def get_word_by_global_index(song_id, line_index, word_index):
 
 def get_word_by_stanza_index(song_id, stanza_index, line_index, word_index):
     return conn().select("select word from words where songID = ? and stanzaindex =? and lineindex = ? and wordindex = ?",[song_id, stanza_index, line_index, word_index])
+
+
+def get_line_context(song_id, lineglobal_index):
+    context = conn().select("select * from words where songID = ? and lineGlobalindex between ? and ? order by lineGlobalindex asc, wordindex asc",[song_id, lineglobal_index -1, lineglobal_index +1])
+    return {"text": create_text_from_words(context), "song_id": song_id} 
+
 
 # for x in get_word_context("new",1):
 #     print(x)
