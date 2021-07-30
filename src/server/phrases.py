@@ -16,7 +16,7 @@ def get_all_phrases():
     return conn().select("select * from phrases")
 
 def get_prhase_by_id(phrase_id):
-    data = conn().select("select * from phrases where phrase_id = %s", [phrase_id])
+    data = conn().select("select * from phrases where phrase_id = ?", [phrase_id])
 
     if len(data) > 0:
         return data[0]
@@ -34,9 +34,12 @@ def find_phrase_in_song(song_id, phrase_id):
 
 def find_phrase_words_in_song(song_id, phrase_words):
     phrase_length = len(phrase_words.split(" "))
-    occurences = conn().select('select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex + "_" + wordindex rows %s preceding) phrase from words where songid  = %s) where phrase = %s', [phrase_length, song_id, phrase_words])
-    contexts = [get_song.get_line_context(song_id, x[0]) for x in occurences]
-    return contexts
+    if phrase_length == 1:
+        return get_song.get_word_context(phrase_words, song_id=song_id)
+    else:
+        occurences = conn().select('select * from (SELECT lineglobalindex, wordindex, word, group_concat (word, " ") over (order by lineglobalindex, wordindex rows ? preceding) phrase from words where songid  = ?) where phrase = ?', [phrase_length - 1, song_id, phrase_words])
+        contexts = [get_song.get_line_context(song_id, x[0]) for x in occurences]
+        return contexts
 
     
 

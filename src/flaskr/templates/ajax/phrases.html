@@ -1,0 +1,85 @@
+<p>&#9432; Click on a row to see the song's text</p>
+<table id="phrases" class="display dataTable">
+    <thead>
+        <th>ID</th>
+        <th>Phrase</th>
+    </thead>
+    <tbody>
+        {% for phrase in phrases %}
+        <tr onclick="show_search_phrase('{{ phrase[0] }}')">
+            <td>{{ phrase[0]}}</td>
+            <td>{{ phrase[1]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="mb-2"></div>
+<button id="create_new_phrase_btn" class="btn btn-info">Create New Phrase</button>
+<button id="search_phrase_btn" class="btn btn-info">Search Phrase</button>
+<div id="create_phrase" >
+    <label for="phrase">Group Name</label>
+    <input id="phrase" name="phrase" type="text" placeholder="Enter Phrase words">
+    <button id="send_create_phrase" class="btn btn-info">Submit</button>
+</div>
+<div id ="search_phrase">
+    <form id="search_form">
+        <div id="song_option" class="options form-group">
+            {% include 'ajax/songs_select.html' %}
+        </div>
+    </form>
+</div>
+<div id="phrase_occurences"></div>
+<script>
+    $(document).ready(function() {
+        $('#phrases').DataTable();
+        $("#create_phrase").hide();
+        $("#search_phrase").hide();
+        
+        
+        $("#create_new_phrase_btn").click(function(){
+            $("#create_phrase").show();    
+            $("#search_phrase").hide();
+        });
+
+        $("#search_phrase_btn").click(function(){
+            show_search_phrase(null);
+        });
+
+        $("#send_create_phrase").click(function(){
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('api.add_phrase') }}",
+                data: {phrase: $("#phrase").val() },
+                success: function(resp) {
+                    load_ajax_url('{{ url_for('ajax.get_phrases')}}')
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    show_error("Error #" + jqXHR.status + ": " + errorThrown);
+                }
+            });
+        });
+        $("#song_select").prop("type","button");
+        $("#song_select").click(function(){
+            load_ajax_url('{{ url_for('ajax.get_phrase_occurences')}}', data=$('#search_form').serialize(),target="#phrase_occurences")
+        });
+    } );
+    
+
+    function show_search_phrase(id=null) {
+        const BY_WORDS = '<label for="phrase_words" class="phrase_label" >Phrase:<input class="form-control phrase_input" type="text" placeholder="Enter Phrase to search" id="phrase_words" name="phrase_words"></label>'
+        const BY_ID    = `<label for="phrase_words" class="phrase_label" >Phrase ID:<input class="form-control phrase_input" type="number" id="phrase_id" name="phrase_id" value="${id}"></label>`
+
+        console.log("got id: " + id)
+        if (id != null){
+            inp = BY_ID;
+        }
+        else {
+            inp = BY_WORDS;
+        }
+        $("#create_phrase").hide();    
+        $("#search_form").find("label.phrase_label").remove();
+        $("#search_form").find("input.phrase_input").remove();
+        $("#search_form").prepend(inp);
+        $("#search_phrase").show();
+    }
+</script>

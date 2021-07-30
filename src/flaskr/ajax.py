@@ -5,7 +5,7 @@ from flask import (
 )
 from flask_api import status
 
-from server import get_song, word_groups, word_relations
+from server import get_song, word_groups, word_relations, phrases
 
 bp = Blueprint('ajax', __name__, url_prefix='/ajax')
 
@@ -116,3 +116,25 @@ def group_occurences():
 def get_word_relations():
     relation_list = word_relations.get_word_relations()
     return render_template("ajax/word_relations.html", relation_list=relation_list)
+
+
+@bp.route("/get_phrase_occurences", methods=["GET"])
+def get_phrase_occurences():
+    for val in ["song_id"]:
+        if val not in request.values or request.values[val] is None or request.values[val] == "":
+            return val + " is needed", status.HTTP_400_BAD_REQUEST
+
+    if "phrase_id" in request.values:
+        occurences = phrases.find_phrase_in_song(request.values["song_id"], request.values["phrase_id"])
+    elif "phrase_words" in request.values:
+        occurences = phrases.find_phrase_words_in_song(request.values["song_id"], request.values["phrase_words"])
+    else:
+        return "either phrase_words or phrase_id are needed", status.HTTP_400_BAD_REQUEST
+
+    return render_template("ajax/word_occurences.html", occurences=occurences)
+
+
+@bp.route("/get_phrases", methods=["GET"])
+def get_phrases():
+    all_phrases = phrases.get_all_phrases()
+    return render_template("ajax/phrases.html", phrases=all_phrases, songs=get_song.get_all_songs())
