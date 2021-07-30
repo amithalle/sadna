@@ -84,11 +84,7 @@ def get_word_context(word, song_id=None):
 
     occurences = conn().select("select * from words where {} {}".format(word_condition, song_condition), params=params)
 
-    all_contexts = []
-    for oc in occurences:
-        all_contexts.append(get_line_context(oc[1],oc[4]))
-
-    return all_contexts
+    return [get_line_context(oc[1],oc[4]) for oc in occurences]
 
 def get_song_words(song_id):
     return conn().select("select word, count(*) as cnt from words where songID = ? group by word",[song_id])
