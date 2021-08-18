@@ -1,13 +1,14 @@
 import functools
 import datetime
+import io
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, current_app
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, current_app, send_file
 )
 from flask_api import status
 import os
 from werkzeug.utils import secure_filename
 from server import get_song
-from server import create_song, word_groups, word_relations, phrases
+from server import create_song, word_groups, word_relations, phrases, xml_handler
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -181,4 +182,46 @@ def add_phrase():
 
     return jsonify(phrases.create_phrase(request.values["phrase"])), status.HTTP_201_CREATED
 
+
+@bp.route("/export", methods=["GET"])
+def export():
+    if "entity_type" not in request.values or request.values["entity_type"] is None or request.values["entity_type"] == "":
+        return "entity_type is required", status.HTTP_400_BAD_REQUEST
+
+    entity_type = request.values["entity_type"]
+    ALL = "all"
+    SONG = "song"
+    PHRASE = "phrase"
+    GROUP = "group"
+    if entity_type not in [ALL, SONG, PHRASE, GROUP]:
+        return "unknown entity_type", status.HTTP_400_BAD_REQUEST
+    export_entities = []
+    tree = xml_handler.get_base_xml()
+    if entity_type == ALL or entity_type == SONG:
+        songs = get_song.get_all_songs()
+        for song in songs:
+            tree.append(xml_handler.dump_song(song))
+        # export_entities.append(None)
+
+    if entity_type == ALL or entity_type == PHRASE:
+        export_entities.append(None)
+    
+    if entity_type == ALL or entity_type == GROUP:
+        export_entities.append(None)
+    
+
+    
+    buffer = io.StringIO(xml_handler.to_string(tree))
+    mem = io.BytesIO()
+    mem.write(buffer.getvalue().encode())
+    mem.seek(0)
+    # buffer.close()
+
+    return send_file (
+        xml_handler.to_string(tree),
+        as_attachment=True,
+        download_name ='export.xml',
+        mimetype='text/xml',
+        max_age= 0
+    )
 
