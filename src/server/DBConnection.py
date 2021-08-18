@@ -16,6 +16,8 @@ class DBConn:
 
     def openConn(self):
         self.conn = sqlite3.connect("sadnaDB")
+        self.conn.row_factory = sqlite3.Row
+
         return self.conn
 
     def execStatement(self, statement, params=[]):
