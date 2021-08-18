@@ -138,3 +138,7 @@ def get_phrase_occurences():
 def get_phrases():
     all_phrases = phrases.get_all_phrases()
     return render_template("ajax/phrases.html", phrases=all_phrases, songs=get_song.get_all_songs())
+
+@bp.route("/export", methods=["GET"])
+def export():
+    return render_template("ajax/export.html")
