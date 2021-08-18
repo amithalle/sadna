@@ -1,2 +1,2 @@
-flask
-flask-api
+flask==1.1.4
+flask-api==2.0
