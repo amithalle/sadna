@@ -229,3 +229,15 @@ def export():
         cache_timeout = 0
     )
 
+@bp.route("/import", methods=["POST"])
+def import_xml():
+    try:
+        file_path = upload_file(request)
+        if (not file_path):
+            return "error reading file", status.HTTP_400_BAD_REQUEST
+
+        xml_handler.read_imported_file(file_path)
+        return redirect("/")
+    except Exception as e:
+        return "error: {}".format(str(e)), status.HTTP_500_INTERNAL_SERVER_ERROR
+

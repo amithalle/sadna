@@ -1,6 +1,8 @@
 <h3>Upload a file</h3>
-<form method="post" action="{{ url_for('api.import_xml') }}" enctype="multipart/form-data">
-    <label for="filename">File</label>
-    <input type="file" name="filename" id="filename" required class="form-control">
-    <input type="submit" value="Upload" class="btn btn-primary">
-  </form>
+<div id="result"></div>
+
+<form method="post" action="{{ url_for('api.import_xml') }}" enctype="multipart/form-data" id="import_form">
+  <label for="filename">File</label>
+  <input type="file" name="filename" id="upload_file_name" required class="form-control">
+  <input type="submit" value="Upload" class="btn btn-primary" id="import_btn">
+</form>
