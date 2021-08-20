@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 from server import get_song
 from server import create_song, word_groups, word_relations, phrases, xml_handler
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'txt', 'xml'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -32,6 +32,9 @@ def post_songs():
 
     try:
         file_path = upload_file(request)
+        if (not file_path):
+            return "error reading file", status.HTTP_400_BAD_REQUEST
+            
         create_song.insert_song(request.values["name"], file_path, 
             request.values["author"],
             datetime.datetime.strptime(request.values["date"],"%Y-%m-%d") )
