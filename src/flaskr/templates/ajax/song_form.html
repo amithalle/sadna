@@ -1,11 +1,11 @@
   <form method="post" action={{ url_for("api.post_songs") }} enctype="multipart/form-data">
     <label for="name">Song Name</label>
-    <input name="name" id="name" required>
+    <input name="name" id="name" class="form-control" required>
     <label for="author">Author</label>
-    <input name="author" id="author" required>
+    <input name="author" id="author" class="form-control" required>
     <label for="date">Creation date</label>
-    <input type ="date" name="date" id="date" required>
+    <input type ="date" name="date" id="date" class="form-control" required>
     <label for="filename">File</label>
-    <input type="file" name="filename" id="filename" required >
-    <input type="submit" value="Submit">
+    <input type="file" name="filename" id="filename" class="form-control" required >
+    <input type="submit" value="Submit" class="btn btn-primary" >
   </form>
