@@ -142,3 +142,8 @@ def get_phrases():
 @bp.route("/export", methods=["GET"])
 def export():
     return render_template("ajax/export.html")
+
+
+@bp.route("/import", methods=["GET"])
+def import_xml():
+    return render_template("ajax/import.html")
