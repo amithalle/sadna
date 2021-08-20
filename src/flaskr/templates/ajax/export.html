@@ -1,28 +1,13 @@
 <h3>Choose entity type to export</h3>
 <div>
-    <select class="form-control" name="entity_type" id="entity_type">
-        <option hidden disabled selected value> -- select entity type -- </option>
-        <option value="all">All</option>
-        <option value="song">Song</option>
-        <option value="phrase">Phrase</option>
-        <option value="word_group">Word Group</option>
-    </select>
-    <button type="button" class="btn btn-primary" id="export_btn">Export</button>
+    <form method="get" action="{{ url_for('api.export')}}">
+        <select class="form-control" name="entity_type" id="entity_type">
+            <option hidden disabled selected value> -- select entity type -- </option>
+            <option value="all">All</option>
+            <option value="song">Song</option>
+            <option value="phrase">Phrase</option>
+            <option value="word_group">Word Group</option>
+        </select>
+        <button type="submit" class="btn btn-primary" id="export_btn" >Export</button>
+    </form>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#export_btn').click(function(){
-            $.ajax({
-                type: "GET",
-                url: "{{ url_for('api.export') }}",
-                data: {entity_type: $("#entity_type").children("option:selected").val() },
-                success: function(resp) {
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    show_error("Error #" + jqXHR.status + ": " + errorThrown);
-                }
-            });
-        });
-    } );
-</script>

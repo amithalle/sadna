@@ -195,19 +195,20 @@ def export():
     GROUP = "group"
     if entity_type not in [ALL, SONG, PHRASE, GROUP]:
         return "unknown entity_type", status.HTTP_400_BAD_REQUEST
-    export_entities = []
     tree = xml_handler.get_base_xml()
     if entity_type == ALL or entity_type == SONG:
         songs = get_song.get_all_songs()
         for song in songs:
             tree.append(xml_handler.dump_song(song))
-        # export_entities.append(None)
 
     if entity_type == ALL or entity_type == PHRASE:
-        export_entities.append(None)
-    
+        all_phrases = phrases.get_all_phrases()
+        for p in all_phrases:
+            tree.append(xml_handler.dump_phrase(p))
     if entity_type == ALL or entity_type == GROUP:
-        export_entities.append(None)
+        all_groups = word_groups.get_groups()
+        for group in all_groups:
+            tree.append(xml_handler.dump_word_group(group))
     
 
     
@@ -215,13 +216,13 @@ def export():
     mem = io.BytesIO()
     mem.write(buffer.getvalue().encode())
     mem.seek(0)
-    # buffer.close()
+    buffer.close()
 
     return send_file (
-        xml_handler.to_string(tree),
+        mem,
         as_attachment=True,
-        download_name ='export.xml',
+        attachment_filename ='export.xml',
         mimetype='text/xml',
-        max_age= 0
+        cache_timeout = 0
     )
 
