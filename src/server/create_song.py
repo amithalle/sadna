@@ -22,13 +22,15 @@ def insert_song(song_name, word_file_name, author, create_date):
     if not os.path.isfile(word_file_name):
         raise Exception("file not exists")
 
+    song_id = insert_song_metadata(song_name, author, create_date)
+
+    LoadFile.loadFile(word_file_name, song_id)
+
+
+def insert_song_metadata(song_name, author, create_date):
     max_song_id = DBConnection.conn().select("select max(song_id) from songs")[0][0]
     if max_song_id is None:
         max_song_id = -1
 
     DBConnection.conn().execStatement("insert into songs (song_id, author, create_date, song_name) values(?,?,?,?)",(max_song_id + 1, author,create_date, song_name))
-
-    LoadFile.loadFile(word_file_name, max_song_id + 1)
-
     return max_song_id + 1
-
