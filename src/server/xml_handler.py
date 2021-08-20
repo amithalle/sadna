@@ -1,12 +1,13 @@
 import xml.etree.ElementTree as ET
-from . import get_song, word_groups
+SONG = "song"
+PHRASE = "phrase"
+WORD_GROUP = "word_group"
 
 def get_base_xml():
     return ET.Element("data")
 
-
 def dump_song(song):
-    elem = ET.Element("song", attrib=row2dict(song))
+    elem = ET.Element(SONG, attrib=row2dict(song))
     words = get_song.get_words_for_song(song["song_id"])
     for word in words:
         elem.append(dump_word(word))
@@ -19,11 +20,11 @@ def dump_word(word):
 
 
 def dump_phrase(phrase):
-    elem = ET.Element("phrase", attrib=row2dict(phrase))
+    elem = ET.Element(WORD_GROUP, attrib=row2dict(phrase))
     return elem
 
 def dump_word_group(word_group):
-    elem = ET.Element("word_group", attrib=row2dict(word_group))
+    elem = ET.Element(WORD_GROUP, attrib=row2dict(word_group))
 
     # add all the words in the group
     words = word_groups.get_words_in_group(word_group["group_id"])
