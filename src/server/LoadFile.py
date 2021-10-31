@@ -1,4 +1,4 @@
-from .DBConnection import conn
+from .DBConnection import DBConn
 
 
 def loadFile( path, song_id):
@@ -15,9 +15,10 @@ def loadFile( path, song_id):
     # print stanzas
     # print self.createWordArr(stanzas)
     #
+    conn = DBConn()
     for word in createWordArr(stanzas):
         conn.execStatement("insert into words (word, stanzaindex, lineGlobalindex, lineindex, wordindex, songID) "
-                            "values(?,?,?,?,?,?)", ( song_id, *word))
+                            "values(?,?,?,?,?,?)", (*word, song_id))
 
 def createWordArr(stanzas):
     words = []
@@ -38,7 +39,7 @@ def createWordArr(stanzas):
 
     return words
 
-def insert_word_in_song(song_id, word, index_stanza, index_global_line, index_line, index_word):
 
-    conn().execStatement("insert into words (word, stanzaindex, lineGlobalindex, lineindex, wordindex, songID) "
-                            "values(?,?,?,?,?,?)", (word, index_stanza, index_global_line, index_line, index_word, song_id))
+# loadFile("testFile.txt")
+# for x in DBConn().select("select * from words",()):
+#     print (x)
